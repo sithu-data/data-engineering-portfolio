@@ -110,8 +110,8 @@ cd data-engineering-portfolio/01-bangkok-property-pipeline
 
 **2. Create your `.env` file**
 ```env
-POSTGRES_USER=sithu
-POSTGRES_PASSWORD=sithu123
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin123
 POSTGRES_DB=bangkok_property
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432

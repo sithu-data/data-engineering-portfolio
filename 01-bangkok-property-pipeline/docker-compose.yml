@@ -3,8 +3,8 @@ services:
     image: postgres:13
     container_name: bangkok_postgres
     environment:
-      POSTGRES_USER: sithu
-      POSTGRES_PASSWORD: sithu123
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
       POSTGRES_DB: bangkok_property
       AIRFLOW__WEBSERVER__SECRET_KEY: 'bangkok_property_secret_2026' 
     ports:
@@ -17,7 +17,7 @@ services:
     container_name: airflow_init
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://sithu:sithu123@postgres/bangkok_property
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:admin123@postgres/bangkok_property
       _AIRFLOW_DB_UPGRADE: 'true'
       _AIRFLOW_WWW_USER_CREATE: 'true'
       _AIRFLOW_WWW_USER_USERNAME: admin
