@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:13
+    container_name: bangkok_postgres
+    environment:
+      POSTGRES_USER: sithu
+      POSTGRES_PASSWORD: sithu123
+      POSTGRES_DB: bangkok_property
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'bangkok_property_secret_2026' 
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  airflow-init:
+    image: apache/airflow:2.7.0
+    container_name: airflow_init
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://sithu:sithu123@postgres/bangkok_property
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: admin
+      _AIRFLOW_WWW_USER_PASSWORD: admin123
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'bangkok_property_secret_2026' 
+    depends_on:
+      - postgres
+    command: version
+
+  airflow-webserver:
+    image: apache/airflow:2.7.0
+    container_name: airflow_webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://sithu:sithu123@postgres/bangkok_property
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'bangkok_property_secret_2026' 
+    volumes:
+      - ./dags:/opt/airflow/dags
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    command: webserver
+
+  airflow-scheduler:
+    image: apache/airflow:2.7.0
+    container_name: airflow_scheduler
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://sithu:sithu123@postgres/bangkok_property
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'bangkok_property_secret_2026' 
+    volumes:
+      - ./dags:/opt/airflow/dags
+    depends_on:
+      - postgres
+    command: scheduler
+
+volumes:
+  postgres_data:
