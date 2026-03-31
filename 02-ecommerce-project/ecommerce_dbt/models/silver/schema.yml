@@ -1,0 +1,148 @@
+version: 2
+
+models:
+  - name: int_orders_enriched
+    description: "Orders enriched with business logic: delivery days, on-time flag, and status rank. One row per order."
+    columns:
+      - name: order_id
+        description: "Primary key — unique order identifier"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Foreign key to stg_customers"
+        tests:
+          - not_null
+      - name: order_status
+        description: "Current status of the order"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['delivered','shipped','canceled','processing',
+                       'approved','invoiced','unavailable','created']
+      - name: purchased_at
+        description: "Timestamp when the order was placed"
+        tests:
+          - not_null
+      - name: approved_at
+        description: "Timestamp when the order was approved for payment"
+      - name: shipped_at
+        description: "Timestamp when the order was handed to the carrier"
+      - name: delivered_at
+        description: "Timestamp when the order was delivered to the customer"
+      - name: estimated_delivery_at
+        description: "Estimated delivery date shown to the customer at time of purchase"
+      - name: delivery_days
+        description: "Actual number of days from purchase to delivery. Null if not yet delivered."
+      - name: delivered_on_time
+        description: "True if delivered_at <= estimated_delivery_at, else False. Null if not delivered."
+      - name: order_status_rank
+        description: "Numeric rank of order status for sorting and funnel analysis. delivered=5, shipped=4, approved=3, processing=2, canceled=0, else=1"
+        tests:
+          - not_null
+
+  - name: int_customer_orders
+    description: "One row per order with customer, item, payment and review data joined. Reviews are deduped using the most recent review per order 
+                  as the source data contains multiple review requests per order."
+    columns:
+      - name: order_id
+        description: "Primary key — unique order identifier"
+        tests:
+          - unique
+          - not_null
+      - name: order_status
+        description: "Current status of the order"
+        tests:
+          - not_null
+      - name: purchased_at
+        description: "Timestamp when the order was placed"
+        tests:
+          - not_null
+      - name: approved_at
+        description: "Timestamp when payment was approved"
+      - name: shipped_at
+        description: "Timestamp when handed to carrier"
+      - name: delivered_at
+        description: "Timestamp when delivered to customer"
+      - name: estimated_delivery_at
+        description: "Estimated delivery date shown to customer"
+      - name: delivery_days
+        description: "Actual days from purchase to delivery"
+      - name: delivered_on_time
+        description: "True if delivered on or before estimated date"
+      - name: customer_unique_id
+        description: "Unique customer identifier — one customer can have multiple customer_ids"
+        tests:
+          - not_null
+      - name: customer_city
+        description: "City of the customer"
+      - name: customer_state
+        description: "Brazilian state code of the customer"
+      - name: order_revenue
+        description: "Sum of item prices for this order excluding freight"
+      - name: order_freight
+        description: "Sum of freight costs for this order"
+      - name: order_total_value
+        description: "Sum of item price + freight for all items in the order"
+      - name: item_count
+        description: "Number of items in the order"
+        tests:
+          - not_null
+      - name: total_paid
+        description: "Total amount paid by the customer including all payment methods"
+      - name: payment_methods_used
+        description: "Number of distinct payment methods used for this order"
+      - name: max_installments
+        description: "Maximum number of installments used across all payments for this order"
+      - name: review_score
+        description: "Customer review rating from 1 to 5"
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+              config:
+                severity: warn
+      - name: review_title
+        description: "Short title of the customer review"
+      - name: review_body
+        description: "Full text of the customer review"
+
+  - name: int_product_revenue
+    description: "Product-level revenue data for delivered orders only. Used for product performance and category analysis."
+    columns:
+      - name: product_id
+        description: "Product identifier"
+        tests:
+          - not_null
+      - name: order_id
+        description: "Order this line item belongs to"
+        tests:
+          - not_null
+      - name: category_name
+        description: "English product category name, falls back to Portuguese if translation unavailable"
+        tests:
+          - not_null
+      - name: weight_grams
+        description: "Product weight in grams"
+      - name: photo_count
+        description: "Number of product photos in the listing"
+      - name: order_status
+        description: "Always delivered for this model — filtered at source"
+        tests:
+          - accepted_values:
+              values: ['delivered']
+      - name: purchased_at
+        description: "Timestamp when the order was placed"
+        tests:
+          - not_null
+      - name: item_price
+        description: "Price of this individual item"
+        tests:
+          - not_null
+      - name: freight_value
+        description: "Freight cost for this item"
+        tests:
+          - not_null
+      - name: total_item_value
+        description: "Item price plus freight value"
+        tests:
+          - not_null
