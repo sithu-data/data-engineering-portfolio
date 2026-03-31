@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: mart_revenue_trends
+    description: "Daily revenue and operational metrics for delivered orders. Used for time series analysis and dashboards."
+    columns:
+      - name: order_date
+        description: "Day of purchase"
+        tests:
+          - unique
+          - not_null
+      - name: order_week
+        description: "Week of purchase"
+        tests:
+          - not_null
+      - name: order_month
+        description: "Month of purchase"
+        tests:
+          - not_null
+      - name: total_orders
+        description: "Number of orders placed on this day"
+        tests:
+          - not_null
+      - name: unique_customers
+        description: "Number of distinct customers who ordered on this day"
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Sum of order revenue for this day"
+        tests:
+          - not_null
+      - name: avg_order_value
+        description: "Average revenue per order for this day"
+        tests:
+          - not_null
+      - name: total_freight
+        description: "Sum of freight costs for this day"
+        tests:
+          - not_null
+      - name: avg_delivery_days
+        description: "Average days from purchase to delivery for this day"
+      - name: on_time_deliveries
+        description: "Count of orders delivered on or before estimated date"
+      - name: on_time_rate
+        description: "Percentage of orders delivered on time"
+      - name: avg_review_score
+        description: "Average customer review score for orders placed this day"
+
+  - name: mart_product_category
+    description: "Monthly product category performance. Revenue, order volume, pricing and review scores by category and month."
+    columns:
+      - name: category_name
+        description: "English product category name"
+        tests:
+          - not_null
+      - name: order_month
+        description: "Month of purchase"
+        tests:
+          - not_null
+      - name: total_orders
+        description: "Total delivered orders in this category for this month"
+        tests:
+          - not_null
+      - name: unique_products
+        description: "Number of distinct products sold in this category and month"
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Total item revenue for this category and month"
+        tests:
+          - not_null
+      - name: avg_item_price
+        description: "Average item price in this category"
+        tests:
+          - not_null
+      - name: total_freight
+        description: "Total freight costs for this category and month"
+      - name: avg_freight
+        description: "Average freight cost per item"
+      - name: avg_weight_grams
+        description: "Average product weight in grams"
+      - name: avg_review_score
+        description: "Average review score for this category and month"
+      - name: revenue_share_pct
+        description: "This category's share of total revenue for the month as a percentage"

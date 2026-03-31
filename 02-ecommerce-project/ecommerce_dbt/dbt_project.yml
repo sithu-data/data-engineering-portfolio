@@ -27,3 +27,11 @@ models:
     gold:
       +materialized: table
       +schema: GOLD
+      marketing:
+        +schema: GOLD
+      finance:
+        +schema: GOLD
+      operations:
+        +schema: GOLD
+      ml:
+        +schema: GOLD
