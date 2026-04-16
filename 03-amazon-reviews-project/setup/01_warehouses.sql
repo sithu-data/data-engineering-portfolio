@@ -1,0 +1,13 @@
+-- Warehouses
+CREATE WAREHOUSE IF NOT EXISTS INGESTION_WH
+    WAREHOUSE_SIZE = 'X-SMALL'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME = TRUE
+    COMMENT = 'Used for Python ingestion scripts';
+
+
+CREATE WAREHOUSE IF NOT EXISTS TRANSFORM_WH
+    WAREHOUSE_SIZE = 'X-SMALL'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME = TRUE
+    COMMENT = 'Used for dbt transformations and Cortex AI';
