@@ -1,0 +1,13 @@
+# Raw data - never commit large files
+data/
+
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+
+# dbt
+target/
+dbt_packages/
+logs/
