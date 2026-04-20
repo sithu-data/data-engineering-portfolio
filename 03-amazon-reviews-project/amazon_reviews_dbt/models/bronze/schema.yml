@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stg_electronics_reviews
+    description: "Flattened raw electronics reviews from VARIANT. One row per review."
+    columns:
+      - name: asin
+        description: "Product ID"
+      - name: parent_asin
+        description: "Parent product ID - join key to metadata"
+      - name: user_id
+        description: "Reviewer user ID"
+      - name: rating
+        description: "Star rating 1-5"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5]
+      - name: review_title
+        description: "Short title of the review"
+      - name: review_text
+        description: "Full review text - primary NLP input"
+      - name: helpful_vote
+        description: "Number of helpful votes"
+      - name: verified_purchase
+        description: "Whether purchase was verified"
+      - name: review_date
+        description: "Review timestamp converted to datetime"
+        tests:
+          - not_null
+
+  - name: stg_electronics_metadata
+    description: "Flattened product metadata from VARIANT. One row per product."
+    columns:
+      - name: parent_asin
+        description: "Primary key - parent product ID"
+        tests:
+          - not_null
+          - unique
+      - name: product_title
+        description: "Product title"
+      - name: store
+        description: "Brand or seller name"
+      - name: main_category
+        description: "Top-level Amazon category"
+      - name: average_rating
+        description: "Aggregate product rating"
+      - name: rating_number
+        description: "Total number of ratings"
+      - name: price
+        description: "Product price in USD - nullable"
