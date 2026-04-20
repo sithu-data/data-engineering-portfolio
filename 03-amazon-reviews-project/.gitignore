@@ -1,4 +1,4 @@
-# Raw data - never commit large files
+# Raw data
 data/
 
 # Python
@@ -13,4 +13,5 @@ target/
 dbt_packages/
 logs/
 
+# Local scripts
 activate_env.ps1
