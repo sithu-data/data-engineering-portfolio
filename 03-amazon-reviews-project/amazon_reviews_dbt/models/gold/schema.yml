@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: mart_sentiment_trends
+    description: "Monthly sentiment trends by category, store and price tier."
+    columns:
+      - name: review_year
+        tests:
+          - not_null
+      - name: review_month
+        tests:
+          - not_null
+      - name: total_reviews
+        tests:
+          - not_null
+
+  - name: mart_product_reputation
+    description: "Product-level reputation score combining rating and Cortex sentiment."
+    columns:
+      - name: parent_asin
+        tests:
+          - not_null
+          - unique
+      - name: reputation_score
+        tests:
+          - not_null
+
+  - name: mart_review_helpfulness
+    description: "Review helpfulness analysis by product, sentiment and review length."
+    columns:
+      - name: parent_asin
+        tests:
+          - not_null
+
+  - name: mart_sentiment_vs_rating
+    description: "Row-level comparison of star rating vs Cortex sentiment — mismatch analysis."
+    columns:
+      - name: mismatch_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['aligned', 'minor_mismatch', 'high_rating_negative_text', 'low_rating_positive_text']
