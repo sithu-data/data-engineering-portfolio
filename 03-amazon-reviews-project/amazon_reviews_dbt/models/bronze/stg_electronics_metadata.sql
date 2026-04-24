@@ -13,7 +13,7 @@ flattened as (
         raw_data:main_category::varchar        as main_category,
         raw_data:average_rating::float         as average_rating,
         raw_data:rating_number::integer        as rating_number,
-        raw_data:price::float                  as price,
+        try_cast(raw_data:price::varchar as float)  as price,
         raw_data:categories::variant           as categories,
         raw_data:features::variant             as features,
         raw_data:description::variant          as description,

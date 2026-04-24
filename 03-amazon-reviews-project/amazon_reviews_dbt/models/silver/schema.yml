@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_reviews_cleaned
+    description: "Cleaned reviews with Cortex sentiment scores. Nulls and short texts filtered out."
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: rating
+        tests:
+          - not_null
+      - name: cortex_sentiment_score
+        description: "Snowflake Cortex sentiment score from -1 (negative) to +1 (positive)"
+        tests:
+          - not_null
+
+  - name: int_product_metadata_cleaned
+    description: "Cleaned product metadata with derived price and volume tiers."
+    columns:
+      - name: parent_asin
+        tests:
+          - not_null
+          - unique
+
+  - name: int_reviews_enriched
+    description: "Reviews joined to product metadata. Primary Silver model for Gold marts."
+    columns:
+      - name: parent_asin
+        tests:
+          - not_null
+      - name: cortex_sentiment_label
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['positive', 'neutral', 'negative']
