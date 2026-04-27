@@ -1,7 +1,7 @@
 with date_spine as (
     select
-        dateadd(day, seq4(), '2010-01-01'::date) as date_day
-    from table(generator(rowcount => 6000))
+        dateadd(day, seq4(), '1998-01-01'::date) as date_day
+    from table(generator(rowcount => 10000))  -- generous buffer, filter controls the end
 ),
 
 final as (
@@ -20,8 +20,9 @@ final as (
         to_varchar(date_day, 'DY')                      as day_name,
         case when dayofweek(date_day) in (0, 6)
             then true else false
-        end                                          as is_weekend
+        end                                             as is_weekend
     from date_spine
+    where date_day between '1998-01-01' and '2023-12-31'  -- start and end clearly visible
 )
 
 select * from final
