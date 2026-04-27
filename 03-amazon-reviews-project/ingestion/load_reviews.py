@@ -133,7 +133,7 @@ def main():
         create_stage(cur)
 
         load_jsonl_gz(cur, REVIEWS_FILE,  "RAW_ELECTRONICS_REVIEWS",  limit=500_000)
-        load_jsonl_gz(cur, METADATA_FILE, "RAW_ELECTRONICS_METADATA", limit=100_000)
+        load_jsonl_gz(cur, METADATA_FILE, "RAW_ELECTRONICS_METADATA", limit=500_000)
 
         conn.commit()
         log.info("🎉 Ingestion complete.")

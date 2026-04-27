@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Date dimension table covering 2010 to 2026."
+    columns:
+      - name: date_key
+        description: "Surrogate key in YYYYMMDD format"
+        tests:
+          - not_null
+          - unique
+      - name: full_date
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: month
+        tests:
+          - not_null
+
+  - name: dim_product
+    description: "Product dimension. One row per parent_asin."
+    columns:
+      - name: product_key
+        tests:
+          - not_null
+          - unique
+      - name: parent_asin
+        tests:
+          - not_null
+          - unique
+      - name: price_tier
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['budget', 'mid_range', 'premium', 'unknown']
+
+  - name: dim_store
+    description: "Store dimension. One row per store name."
+    columns:
+      - name: store_key
+        tests:
+          - not_null
+          - unique
+      - name: store
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_reviewer
+    description: "Reviewer dimension. One row per user_id."
+    columns:
+      - name: reviewer_key
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_reviews
+    description: "Central fact table. One row per review event."
+    columns:
+      - name: review_key
+        tests:
+          - not_null
+          - unique
+      - name: date_key
+        tests:
+          - not_null
+      - name: product_key
+        tests:
+          - not_null
+      - name: rating
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5]
+      - name: cortex_sentiment_label
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['positive', 'neutral', 'negative']
+      - name: cortex_sentiment_score
+        tests:
+          - not_null

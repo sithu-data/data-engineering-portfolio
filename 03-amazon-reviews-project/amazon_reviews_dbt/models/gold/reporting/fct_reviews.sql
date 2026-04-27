@@ -21,7 +21,7 @@ dim_reviewer as (
 final as (
     select
         -- Surrogate key
-        {{ dbt_utils.generate_surrogate_key(['r.asin', 'r.user_id', 'r.review_date']) }}
+        {{ dbt_utils.generate_surrogate_key(['r.asin', 'r.user_id', 'r.review_date', 'r.review_title', 'r.review_text']) }}
                                                 as review_key,
 
         -- Foreign keys
