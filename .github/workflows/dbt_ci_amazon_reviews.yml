@@ -55,6 +55,10 @@ jobs:
         working-directory: 03-amazon-reviews-project/amazon_reviews_dbt
         run: dbt debug
 
+      - name: dbt deps
+        working-directory: 03-amazon-reviews-project/amazon_reviews_dbt
+        run: dbt deps
+
       - name: dbt build
         working-directory: 03-amazon-reviews-project/amazon_reviews_dbt
         run: dbt build

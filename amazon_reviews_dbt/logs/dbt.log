@@ -1,0 +1,16 @@
+==================== 2026-04-27T04:43:10.154378Z | 019dcd3f-97b0-7c42-9af1-cbf19c4e7137 ====================
+04:43:10.157332 [info ]: dbt-fusion 2.0.0-preview.154
+04:43:10.160925 [info ]: Started loading project
+04:43:10.167070 [info ]: Finished loading project [  0.01s]
+04:43:10.169767 [error]: dbt1001: Cannot open file C:\Users\Asus\Desktop\GitHub\data-engineering-portfolio\amazon_reviews_dbt\dbt_project.yml: Failed to open file: C:\Users\Asus\Desktop\GitHub\data-engineering-portfolio\amazon_reviews_dbt\dbt_project.yml: The system cannot find the file specified. (os error 2): The system cannot find the file specified. (os error 2)
+04:43:11.112958 [info ]: 
+==================== Execution Summary =====================
+Finished 'deps' with 1 error [958ms]
+==================== 2026-04-27T04:43:34.546604Z | 019dcd3f-f70f-7443-94d8-cdafc322ffa4 ====================
+04:43:34.546736 [info ]: dbt-fusion 2.0.0-preview.154
+04:43:34.547653 [info ]: Started loading project
+04:43:34.548346 [info ]: Finished loading project [  0.00s]
+04:43:34.550942 [error]: dbt1001: Cannot open file C:\Users\Asus\Desktop\GitHub\data-engineering-portfolio\amazon_reviews_dbt\dbt_project.yml: Failed to open file: C:\Users\Asus\Desktop\GitHub\data-engineering-portfolio\amazon_reviews_dbt\dbt_project.yml: The system cannot find the file specified. (os error 2): The system cannot find the file specified. (os error 2)
+04:43:35.536741 [info ]: 
+==================== Execution Summary =====================
+Finished 'deps' with 1 error [990ms]
